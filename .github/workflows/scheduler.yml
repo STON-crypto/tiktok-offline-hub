@@ -21,10 +21,11 @@ jobs:
           python-version: '3.10'
 
       - name: Ejecutar script recolector
-        run: python collector.py
+        run: python coleccionista.py
 
-      - name: Guardar cambios en la bodega (links.json)
+      - name: Guardar cambios en la bodega
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "🤖 Actualización automática de la bodega de enlaces [skip ci]"
+          commit_message: "🤖 Actualización automática del almacén de TikTok"
           branch: main
+      
