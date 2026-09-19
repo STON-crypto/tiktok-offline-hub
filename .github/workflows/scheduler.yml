@@ -12,20 +12,19 @@ jobs:
   run-collector:
     runs-on: ubuntu-latest
     steps:
-      - name: Descargar código del repositorio
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configurar entorno de Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Ejecutar script recolector
+      - name: Run collector script
         run: python coleccionista.py
 
-      - name: Guardar cambios en la bodega
+      - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "🤖 Actualización automática del almacén de TikTok"
           branch: main
-      
