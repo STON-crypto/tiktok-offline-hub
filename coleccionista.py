@@ -2,7 +2,7 @@ import json
 import os
 import random
 
-DATA_FILE = "centro sin conexión de TikTok/links.json"
+DATA_FILE = "centro sin conexión de TikTok/enlaces.json"
 
 def ejecutar():
     if not os.path.exists(DATA_FILE):
