@@ -22,27 +22,23 @@ def guardar_datos(data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 def simular_antibloqueo():
-    # Pausa aleatoria para despistar el rastreo de TikTok
     time.sleep(random.uniform(2.0, 5.0))
 
 def main():
     print("[*] Iniciando motor de recolección y rotación inteligente...")
     datos = cargar_datos()
     
-    # Simulación de la llegada de 150 enlaces nuevos de forma segura
     print(f"[*] Recolectando {VIDEOS_DIARIOS} enlaces diarios bajo protección...")
-    
     nuevos_enlaces_simulados = [f"tiktok_video_fresco_{random.randint(10000, 99999)}" for _ in range(VIDEOS_DIARIOS)]
     
     if "almacen_enlaces" not in datos:
         datos["almacen_enlaces"] = []
         
-    # Lógica FIFO (Cola Circular): Entra lo nuevo, si pasamos de 5000, sale lo más viejo
     for enlace in nuevos_enlaces_simulados:
         simular_antibloqueo()
         datos["almacen_enlaces"].append(enlace)
         if len(datos["almacen_enlaces"]) > MAX_ALMACEN:
-            datos.pop(0) # Saca el más viejo de la cola
+            datos["almacen_enlaces"].pop(0)
             
     guardar_datos(datos)
     print(f"[+] Almacén actualizado con éxito. Total en bodega: {len(datos['almacen_enlaces'])} enlaces rotando fresco.")
