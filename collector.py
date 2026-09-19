@@ -1,47 +1,51 @@
 import json
 import os
+import random
+import time
 
-LINKS_FILE = "links.json"
-MAX_LINKS = 5000
+LINKS_FILE = "enlaces.json"
+MAX_ALMACEN = 5000
+VIDEOS_DIARIOS = 150
 
-def cargar_enlaces():
+def cargar_datos():
     if os.path.exists(LINKS_FILE):
         with open(LINKS_FILE, "r", encoding="utf-8") as f:
             try:
-                return json.load(f)
+                data = json.load(f)
+                return data
             except json.JSONDecodeError:
-                return []
-    return []
+                return {"creadores": [], "almacen_enlaces": [], "historial_vistos": []}
+    return {"creadores": [], "almacen_enlaces": [], "historial_vistos": []}
 
-def guardar_enlaces(enlaces):
+def guardar_datos(data):
     with open(LINKS_FILE, "w", encoding="utf-8") as f:
-        json.dump(enlaces, f, ensure_ascii=False, indent=2)
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+def simular_antibloqueo():
+    # Pausa aleatoria para despistar el rastreo de TikTok
+    time.sleep(random.uniform(2.0, 5.0))
 
 def main():
-    print("[*] Iniciando ciclo de recolección en la nube...")
+    print("[*] Iniciando motor de recolección y rotación inteligente...")
+    datos = cargar_datos()
     
-    enlaces_actuales = cargar_enlaces()
+    # Simulación de la llegada de 150 enlaces nuevos de forma segura
+    print(f"[*] Recolectando {VIDEOS_DIARIOS} enlaces diarios bajo protección...")
     
-    # Simulación de nuevos enlaces recolectados de forma segura en este ciclo
-    # (Aquí es donde luego conectaremos la lógica de extracción o tus fuentes)
-    nuevos_enlaces = [
-        "https://www.tiktok.com/@ejemplo/video/nuevo_1",
-        "https://www.tiktok.com/@ejemplo/video/nuevo_2"
-    ]
+    nuevos_enlaces_simulados = [f"tiktok_video_fresco_{random.randint(10000, 99999)}" for _ in range(VIDEOS_DIARIOS)]
     
-    # Agregar los nuevos enlaces a la lista
-    for link in nuevos_enlaces:
-        if link not in enlaces_actuales:
-            enlaces_actuales.append(link)
-            
-    # Aplicar la regla FIFO: Si pasamos el techo de 5000, eliminamos los más viejos (los primeros de la lista)
-    if len(enlaces_actuales) > MAX_LINKS:
-        exceso = len(enlaces_actuales) - MAX_LINKS
-        enlaces_actuales = enlaces_actuales[exceso:]
-        print(f"[*] Se eliminaron {exceso} enlaces antiguos para respetar el límite de {MAX_LINKS}.")
+    if "almacen_enlaces" not in datos:
+        datos["almacen_enlaces"] = []
         
-    guardar_enlaces(enlaces_actuales)
-    print(f"[+] Total de enlaces en la bodega: {len(enlaces_actuales)}")
+    # Lógica FIFO (Cola Circular): Entra lo nuevo, si pasamos de 5000, sale lo más viejo
+    for enlace in nuevos_enlaces_simulados:
+        simular_antibloqueo()
+        datos["almacen_enlaces"].append(enlace)
+        if len(datos["almacen_enlaces"]) > MAX_ALMACEN:
+            datos.pop(0) # Saca el más viejo de la cola
+            
+    guardar_datos(datos)
+    print(f"[+] Almacén actualizado con éxito. Total en bodega: {len(datos['almacen_enlaces'])} enlaces rotando fresco.")
 
 if __name__ == "__main__":
     main()
