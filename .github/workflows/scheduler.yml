@@ -2,9 +2,8 @@ name: Recolector Automático TikTok
 
 on:
   schedule:
-    # Se ejecuta cada hora para conseguir la meta diaria de forma repartida y segura
     - cron: '0 * * * *'
-  workflow_dispatch: # Permite ejecutarlo manualmente desde la página de GitHub cuando quieras
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -28,4 +27,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "🤖 Actualización automática de la bodega de enlaces [skip ci]"
-          branch: principal
+          branch: main
