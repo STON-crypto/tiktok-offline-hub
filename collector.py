@@ -3,7 +3,7 @@ import os
 import random
 import time
 
-LINKS_FILE = "enlaces.json"
+LINKS_FILE = "links.json"
 MAX_ALMACEN = 5000
 VIDEOS_DIARIOS = 150
 
